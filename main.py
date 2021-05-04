@@ -13,11 +13,8 @@ class Snake():
         self.kecepatan = 10    
 
     def get_head_position(self) :
-<<<<<<< HEAD
-        return self.positions[0] #Buat inisasi kepala ular 
-=======
         return self.positions[0]
->>>>>>> e5036df4527169256336a52f17d8fb930a0649ec
+
 
     def turn(self, point):
         if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.direction:
@@ -143,13 +140,8 @@ def main() :
     myfont = pygame.font.SysFont("monospace",50)
 
     while True :
-<<<<<<< HEAD
-        clock.tick(40) #kecepatan ular
-        snake.KontrolUlar()
-=======
         clock.tick(snake.kecepatan) #kecepatan ular
-        snake.handle_keys()
->>>>>>> e5036df4527169256336a52f17d8fb930a0649ec
+        snake.KontrolUlar()
         GambarKotak(surface)
         snake.move()
         if snake.get_head_position() == food.position :
