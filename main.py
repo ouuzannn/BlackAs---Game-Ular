@@ -7,43 +7,43 @@ from uni_vars import *
 class Snake():
     def __init__(self):
         self.PanjangUlar = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
-        self.direction = random.choice([up, down, left, right])
-        self.score = 0
+        self.letakUlar = [((screen_width/2), (screen_height/2))]
+        self.arahUlar = random.choice([up, down, left, right])
+        self.nilai = 0
         self.kecepatan = 10    
 
     def get_head_position(self) :
-        return self.positions[0]
+        return self.letakUlar[0]
 
 
     def turn(self, point):
-        if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.direction:
+        if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.arahUlar:
             return
         else :
-            self.direction = point
+            self.letakUlar = point
 
     def move(self) :
         cur = self.get_head_position()
-        x,y = self.direction
+        x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%screen_width), (cur[1]+(y*gridsize))%screen_height)
-        if (len(self.positions) > 2 and new in self.positions[2:]) :
+        if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
             self.reset()
         #elif buat kalo nabrak dinding mati
         else :
-            self.positions.insert(0,new)
-            if len(self.positions) > self.PanjangUlar :
-                self.positions.pop()
+            self.letakUlar.insert(0,new)
+            if len(self.letakUlar) > self.PanjangUlar :
+                self.letakUlar.pop()
     
     def reset(self) :
         self.PanjangUlar = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
-        self.direction = random.choice([up, down, left, right])
-        self.score = 0
+        self.letakUlar = [((screen_width/2), (screen_height/2))]
+        self.arahUlar = random.choice([up, down, left, right])
+        self.nilai = 0
         self.kecepatan = 10
 
     def draw(self, surface):
         i = 0
-        for p in self.positions:
+        for p in self.letakUlar:
             r = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
             if i == 0 :#penanda kepala
                 self.color = (25, 24, 47)
@@ -137,7 +137,7 @@ def main() :
     snake = Snake()
     food = Food()
     
-    myfont = pygame.font.SysFont("monospace",50)
+    myfont = pygame.font.SysFont("monospace",40)
 
     while True :
         clock.tick(snake.kecepatan) #kecepatan ular
@@ -146,15 +146,16 @@ def main() :
         snake.move()
         if snake.get_head_position() == food.position :
             snake.PanjangUlar += 1
-            snake.score += 1
+            snake.nilai += 1
             food.randomize_position()
-            if snake.score%10==0:
+            if snake.nilai%10==0:
                 snake.kecepatan+=4
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0,0))
-        text = myfont.render("Score {0}".format(snake.score), 1, (0,0,0))
-        screen.blit(text, (5,10))
+        #menampilkan hasil skor yang didapatkan
+        text = myfont.render("Score : {0}".format(snake.nilai), 1, (0,0,0))
+        screen.blit(text, (3,10))
         pygame.display.update()
 
 menu()

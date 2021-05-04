@@ -32,27 +32,27 @@ class Button:
     def render(self):
         pygame.draw.rect(self.window, self.color, self.rect)
         text = self.font.render(self.text, True, self.text_color)
-        x = self.x + 20
-        y = self.y + 45
+        x = self.x + 5
+        y = self.y + 20
         self.window.blit(text, (x, y))
 
 
 class Menu:
 	def __init__(self):
-		self.title_size = 100
+		self.title_size = 60
 		self.title_color = [255, 255, 255]
-		self.title_pos = (width/2-self.title_size*1.6, 200)
+		self.title_pos = (width/2-self.title_size*2, 125) #posisi judul
 		self.timer = 0
 		self.running = True
-		self.btn_width = 250
-		self.btn_height = 125
-		self.play_button = Button(win, width / 2 - self.btn_width / 2, height / 2,
+		self.btn_width = 125
+		self.btn_height = 65
+		self.play_button = Button(win, width / 2 - self.btn_width / 2, height / 2.2,
                          self.btn_width, self.btn_height,
-                         text='Single Player', text_size=47)
+                         text='Single Player', text_size=20)
 
-		self.controls_button = Button(win, width / 2 - self.btn_width / 2, height / 2 + 150,
-                         self.btn_width, self.btn_height,
-                         text='Controls', text_size=70)
+		self.controls_button = Button(win, width / 2 - self.btn_width / 2, height / 2 + 75,
+                         self.btn_width, self.btn_height ,
+                         text='Controls', text_size=20)
 
 		self.play_button.color = (0, 255, 0)
 
@@ -81,7 +81,7 @@ class Menu:
 				self.show_controls = True
 
 	def render(self):
-		self.message("Welcome to", 40, (255, 255, 255), (width/2-40*2.1, self.title_pos[1]-50))
+		self.message("Welcome to", 40, (255, 255, 255), (width/2-40*2.3, self.title_pos[1]-50))
 		self.message("Python.io", self.title_size, self.title_color, self.title_pos)
 
 		self.play_button.render()
