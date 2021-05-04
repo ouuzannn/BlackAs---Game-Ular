@@ -81,7 +81,7 @@ class Food() :
         pygame.draw.rect(surface, self.color, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
-def drawGrid(surface) :
+def GambarKotak(surface) :
     for y in range(0, int(grid_height)) :
         for x in range(0, int(grid_width)) :
             if (x+y) %2 == 0:
@@ -123,14 +123,14 @@ def menu():
 
 
 def main() :
-    pygame.init()
+    pygame.init() #buat screen
     
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((screen_width, screen_height), 0, 32)
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
-    drawGrid(surface)
+    GambarKotak(surface)
 
     snake = Snake()
     food = Food()
@@ -140,7 +140,7 @@ def main() :
     while True :
         clock.tick(10)
         snake.handle_keys()
-        drawGrid(surface)
+        GambarKotak(surface)
         snake.move()
         if snake.get_head_position() == food.position :
             snake.length += 1
