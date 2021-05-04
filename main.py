@@ -7,12 +7,12 @@ from uni_vars import *
 class Snake():
     def __init__(self):
         self.PanjangUlar = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
+        self.positions = [((screen_width/2), (tinggi_layar/2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
             
 
-    def get_head_position(self) :
+    def get_position_kepala(self) :
         return self.positions[0]
 
     def turn(self, point):
@@ -22,9 +22,9 @@ class Snake():
             self.direction = point
 
     def move(self) :
-        cur = self.get_head_position()
+        cur = self.get_position_kepala()
         x,y = self.direction
-        new = (((cur[0]+(x*gridsize))%screen_width), (cur[1]+(y*gridsize))%screen_height)
+        new = (((cur[0]+(x*ukurankotak))%screen_width), (cur[1]+(y*ukurankotak))%tinggi_layar)
         if (len(self.positions) > 2 and new in self.positions[2:]) :
             self.reset()
         #elif buat kalo nabrak dinding mati
@@ -35,20 +35,20 @@ class Snake():
     
     def reset(self) :
         self.PanjangUlar = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
+        self.positions = [((screen_width/2), (tinggi_layar/2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
 
     def draw(self, surface):
         i = 0
         for p in self.positions:
-            r = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
+            r = pygame.Rect((p[0], p[1]), (ukurankotak,ukurankotak))
             if i == 0 :#penanda kepala
-                self.color = (25, 24, 47)
-                pygame.draw.rect(surface, self.color, r)
+                self.warna = (25, 24, 47)
+                pygame.draw.rect(surface, self.warna, r)
             else :
-                self.color = (255, 24, 47)
-                pygame.draw.rect(surface, self.color, r)
+                self.warna = (255, 24, 47)
+                pygame.draw.rect(surface, self.warna, r)
             pygame.draw.rect(surface, (25,24,228), r, 1)
             i +=1
 
@@ -70,34 +70,34 @@ class Snake():
 class Food() :
     def __init__(self):
         self.position = (0,0)
-        self.color = (223, 163, 49)
+        self.warna = (223, 163, 49)
         self.randomize_position()
 
     def randomize_position(self):
-        self.position = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
+        self.position = (random.randint(0, grid_width-1)*ukurankotak, random.randint(0, grid_height-1)*ukurankotak)
 
     def draw(self, surface) :
-        r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))
-        pygame.draw.rect(surface, self.color, r)
+        r = pygame.Rect((self.position[0], self.position[1]), (ukurankotak, ukurankotak))
+        pygame.draw.rect(surface, self.warna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
 def GambarKotak(surface) :
     for y in range(0, int(grid_height)) :
         for x in range(0, int(grid_width)) :
             if (x+y) %2 == 0:
-                r = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
+                r = pygame.Rect((x*ukurankotak, y*ukurankotak), (ukurankotak,ukurankotak))
                 pygame.draw.rect(surface,(93,216,228), r)
             else :
-                rr = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
+                rr = pygame.Rect((x*ukurankotak, y*ukurankotak), (ukurankotak, ukurankotak))
                 pygame.draw.rect(surface, (84,194,205), rr)
 
 #GLOBAL VARIABEL
 screen_width = 480
-screen_height = 480
+tinggi_layar = 480
 
-gridsize = 20
-grid_width = screen_width/gridsize
-grid_height = screen_height/gridsize
+ukurankotak = 20
+grid_width = screen_width/ukurankotak
+grid_height = tinggi_layar/ukurankotak
 
 up = (0, -1)
 down = (0, 1)
@@ -126,7 +126,7 @@ def main() :
     pygame.init() #buat screen
     
     clock = pygame.time.Clock()
-    screen = pygame.display.set_mode((screen_width, screen_height), 0, 32)
+    screen = pygame.display.set_mode((screen_width, tinggi_layar), 0, 32)
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
@@ -142,7 +142,7 @@ def main() :
         snake.handle_keys()
         GambarKotak(surface)
         snake.move()
-        if snake.get_head_position() == food.position :
+        if snake.get_position_kepala() == food.position :
             snake.PanjangUlar += 1
             snake.score += 1
             food.randomize_position()
