@@ -52,7 +52,7 @@ class Snake():
             pygame.draw.rect(surface, (25,24,228), r, 1)
             i +=1
 
-    def handle_keys(self):
+    def KontrolUlar(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT :
                 pygame.quit()
@@ -139,7 +139,7 @@ def main() :
 
     while True :
         clock.tick(40) #kecepatan ular
-        snake.handle_keys()
+        snake.KontrolUlar()
         GambarKotak(surface)
         snake.move()
         if snake.get_head_position() == food.position :
