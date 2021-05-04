@@ -10,7 +10,7 @@ class Snake():
         self.positions = [((screen_width/2), (screen_height/2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
-            
+        self.kecepatan = 10    
 
     def get_head_position(self) :
         return self.positions[0]
@@ -38,6 +38,7 @@ class Snake():
         self.positions = [((screen_width/2), (screen_height/2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
+        self.kecepatan = 10
 
     def draw(self, surface):
         i = 0
@@ -138,7 +139,7 @@ def main() :
     myfont = pygame.font.SysFont("monospace",50)
 
     while True :
-        clock.tick(40) #kecepatan ular
+        clock.tick(snake.kecepatan) #kecepatan ular
         snake.handle_keys()
         GambarKotak(surface)
         snake.move()
@@ -146,6 +147,8 @@ def main() :
             snake.PanjangUlar += 1
             snake.score += 1
             food.randomize_position()
+            if snake.score%10==0:
+                snake.kecepatan+=4
         snake.draw(surface)
         food.draw(surface)
         screen.blit(surface, (0,0))
