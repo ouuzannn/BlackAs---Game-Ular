@@ -3,10 +3,10 @@ import sys
 import random 
 from menu import Menu
 from uni_vars import *
-
+#tees123
 class Snake():
     def __init__(self):
-        self.PanjangUlar = 1
+        self.length = 1
         self.positions = [((screen_width/2), (screen_height/2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
@@ -16,7 +16,7 @@ class Snake():
         return self.positions[0]
 
     def turn(self, point):
-        if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.direction:
+        if self.length > 1 and (point[0]*-1, point[1]*-1) == self.direction:
             return
         else :
             self.direction = point
@@ -30,11 +30,11 @@ class Snake():
         #elif buat kalo nabrak dinding mati
         else :
             self.positions.insert(0,new)
-            if len(self.positions) > self.PanjangUlar :
+            if len(self.positions) > self.length :
                 self.positions.pop()
     
     def reset(self) :
-        self.PanjangUlar = 1
+        self.length = 1
         self.positions = [((screen_width/2), (screen_height/2))]
         self.direction = random.choice([up, down, left, right])
         self.score = 0
@@ -138,12 +138,12 @@ def main() :
     myfont = pygame.font.SysFont("monospace",50)
 
     while True :
-        clock.tick(40) #kecepatan ular
+        clock.tick(10)
         snake.handle_keys()
         GambarKotak(surface)
         snake.move()
         if snake.get_head_position() == food.position :
-            snake.PanjangUlar += 1
+            snake.length += 1
             snake.score += 1
             food.randomize_position()
         snake.draw(surface)
