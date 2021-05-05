@@ -5,18 +5,18 @@ pygame.font.init()
 
 
 class Button:
-    def __init__(self, window, x, y, width, height, text='', text_size=20):
+    def __init__(self, window, x, y, width, height, teks='', ukuran_teks=20):
         self.window = window
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.text = text
-        self.text_size = text_size
-        self.color = (255, 255, 255)
-        self.text_color = (0, 0, 0)
+        self.teks = teks
+        self.ukuran_teks = ukuran_teks
+        self.warna = (255, 255, 255)
+        self.warna_teks = (0, 0, 0)
         self.rect = (self.x, self.y, self.width, self.height)
-        self.font = pygame.font.SysFont('Comic Sans MS', self.text_size)
+        self.font = pygame.font.SysFont('Comic Sans MS', self.ukuran_teks)
 
     def clicked(self):
         mouse = pygame.mouse.get_pos()
@@ -31,46 +31,46 @@ class Button:
 
     def render(self):
 		#Posisi Teks Button
-        pygame.draw.rect(self.window, self.color, self.rect)
-        text = self.font.render(self.text, True, self.text_color)
+        pygame.draw.rect(self.window, self.warna, self.rect)
+        teks = self.font.render(self.teks, True, self.warna_teks)
         x = self.x + 5
         y = self.y + 20
-        self.window.blit(text, (x, y))
+        self.window.blit(teks, (x, y))
 
 
 class Menu:
 	def __init__(self):
-		self.title_size = 80
-		self.title_color = [255, 255, 255]
-		self.title_pos = (width/2-self.title_size*2, 80) #posisi judul
+		self.ukuran_judul = 80
+		self.warna_judul = [255, 255, 255]
+		self.posisi_judul = (width/2-self.ukuran_judul*2, 80) #posisi judul
 		self.waktu = 0
 		self.running = True
 		self.btn_width = 200
 		self.btn_height = 65
 		self.play_button = Button(win, (width / 2 - self.btn_width / 2), (height / 2.2),
                          self.btn_width, self.btn_height,
-                         text='Permainan Baru', text_size=20)
+                         teks='Permainan Baru', ukuran_teks=20)
 
 		self.controls_button = Button(win, (width / 2 - self.btn_width / 2), (height / 2 + 75),
                          self.btn_width, self.btn_height,
-                         text='Keluar', text_size=20)
+                         teks='Keluar', ukuran_teks=20)
 
-		self.play_button.color = (0, 255, 0)
+		self.play_button.warna = (0, 255, 0)
 
 		self.show_controls = False
 
-	def message(self, text, text_size, color, letakUlar):
-		font = pygame.font.SysFont('Comic Sans MS', text_size)
-		screen_text = font.render(text, True, color)
+	def message(self, teks, ukuran_teks, warna, letakUlar):
+		font = pygame.font.SysFont('Comic Sans MS', ukuran_teks)
+		screen_text = font.render(teks, True, warna)
 		win.blit(screen_text, letakUlar)
 
 	def logic(self):
 		self.waktu += 1
 
 		if self.waktu % 10 == 0:
-			self.title_color[0] = randint(0, 255)
-			self.title_color[1] = randint(0, 255)
-			self.title_color[2] = randint(0, 255)
+			self.warna_judul[0] = randint(0, 255)
+			self.warna_judul[1] = randint(0, 255)
+			self.warna_judul[2] = randint(0, 255)
 
 		if self.play_button.clicked():
 			self.running = False
@@ -82,8 +82,8 @@ class Menu:
 				self.show_controls = True
 
 	def render(self):
-		self.message("Welcome to", 40, (255, 255, 255), (width/2-50*2, self.title_pos[1]-50))
-		self.message("Python.io", self.title_size, self.title_color, self.title_pos)
+		self.message("Welcome to", 40, (255, 255, 255), (width/2-50*2, self.posisi_judul[1]-50))
+		self.message("Python.io", self.ukuran_judul, self.warna_judul, self.posisi_judul)
 
 		self.play_button.render()
 		self.controls_button.render()
