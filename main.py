@@ -10,12 +10,11 @@ class Ular():
         self.letakUlar = [((lebar_layar/2), (tinggi_layar/2))]
         self.arahUlar = random.choice([atas, bawah, kiri, kanan])
         self.nilai = 0
-        self.kecepatan = 10    
+        self.kecepatan = 7
+        self.hitungmakanan = 0
 
     def get_head_position(self) :
         return self.letakUlar[0]
-
-
     def turn(self, point):
         if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.arahUlar:
             return
@@ -27,7 +26,7 @@ class Ular():
         x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
         if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
-            self.reset()
+            self.reset()            
         #elif cur == self.letakUlar[0,new] or cur == self.letakUlar[lebar_layar,new] or cur == self.letakUlar[new,0] or cur == self.letakUla[new,tinggi_layar]:
             #self.reset()
         else :
@@ -40,7 +39,8 @@ class Ular():
         self.letakUlar = [((lebar_layar/2), (tinggi_layar/2))]
         self.arahUlar = random.choice([atas, bawah, kiri, kanan])
         self.nilai = 0
-        self.kecepatan = 10
+        self.kecepatan = 7
+        self.hitungmakanan = 0
 
     def draw(self, surface):
         i = 0
@@ -168,14 +168,16 @@ def main() :
         if ular.get_head_position() == makanan.letakUlar :
             ular.PanjangUlar += 1
             ular.nilai += 1
+            ular.hitungmakanan += 1
             makanan.randomize_position()
             if ular.nilai%10==0:
-                ular.kecepatan+=4
+                ular.kecepatan+=4            
         elif ular.get_head_position() == makananbonus.letakUlar :
             ular.PanjangUlar += 1
             ular.nilai += 5
+            ular.hitungmakanan += 1
             makananbonus.randomize_position()
-        if ular.nilai !=0 and ular.nilai % 5 == 0 :
+        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 :
                makananbonus.gambarObjek(surface)
                waktu += 1
         ular.draw(surface)
