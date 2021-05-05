@@ -157,7 +157,8 @@ def main() :
     makananbonus = MakananBonus()
     waktu = 0
     
-    myfont = pygame.font.SysFont("monospace",50)
+    #Setting ukuran dan jenis font dari tulisan score
+    myfont = pygame.font.SysFont("monospace",28)
 
     while True :
         clock.tick(ular.kecepatan) #kecepatan ular

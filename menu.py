@@ -4,7 +4,7 @@ from uni_vars import win, width, height
 pygame.font.init()
 
 
-class Button:
+class TombolMenu:
     def __init__(self, window, x, y, width, height, teks='', ukuran_teks=20):
         self.window = window
         self.x = x
@@ -30,7 +30,7 @@ class Button:
                     return True
 
     def render(self):
-		#Posisi Teks Button
+		#Posisi Teks Tombol
         pygame.draw.rect(self.window, self.warna, self.rect)
         teks = self.font.render(self.teks, True, self.warna_teks)
         x = self.x + 5
@@ -47,19 +47,19 @@ class Menu:
 		self.running = True
 		self.btn_width = 200
 		self.btn_height = 65
-		self.play_button = Button(win, (width / 2 - self.btn_width / 2), (height / 2.2),
+		self.menu_play = TombolMenu(win, (width / 2 - self.btn_width / 2), (height / 2.2),
                          self.btn_width, self.btn_height,
                          teks='Permainan Baru', ukuran_teks=20)
 
-		self.controls_button = Button(win, (width / 2 - self.btn_width / 2), (height / 2 + 75),
+		self.menu_keluar = TombolMenu(win, (width / 2 - self.btn_width / 2), (height / 2 + 75),
                          self.btn_width, self.btn_height,
                          teks='Keluar', ukuran_teks=20)
 
-		self.play_button.warna = (0, 255, 0)
+		self.menu_play.warna = (0, 255, 0)
 
 		self.show_controls = False
 
-	def message(self, teks, ukuran_teks, warna, letakUlar):
+	def pesan(self, teks, ukuran_teks, warna, letakUlar):
 		font = pygame.font.SysFont('Comic Sans MS', ukuran_teks)
 		screen_text = font.render(teks, True, warna)
 		win.blit(screen_text, letakUlar)
@@ -72,21 +72,21 @@ class Menu:
 			self.warna_judul[1] = randint(0, 255)
 			self.warna_judul[2] = randint(0, 255)
 
-		if self.play_button.clicked():
+		if self.menu_play.clicked():
 			self.running = False
 
-		if self.controls_button.clicked():
+		if self.menu_keluar.clicked():
 			if self.show_controls:
 				self.show_controls = False
 			if self.show_controls == False:
 				self.show_controls = True
 
 	def render(self):
-		self.message("Welcome to", 40, (255, 255, 255), (width/2-50*2, self.posisi_judul[1]-50))
-		self.message("Python.io", self.ukuran_judul, self.warna_judul, self.posisi_judul)
+		self.pesan("Welcome to", 40, (255, 255, 255), (width/2-50*2, self.posisi_judul[1]-50))
+		self.pesan("Python.io", self.ukuran_judul, self.warna_judul, self.posisi_judul)
 
-		self.play_button.render()
-		self.controls_button.render()
+		self.menu_play.render()
+		self.menu_keluar.render()
 
 		if self.show_controls:
-			self.message("Press Control Button", 20, (255, 255, 255), (width/4+50, height/1.2))
+			self.pesan("Press Control Button", 20, (255, 255, 255), (width/4.3+35, height/1.2))
