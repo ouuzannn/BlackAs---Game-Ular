@@ -79,7 +79,7 @@ class Makanan() :
     def randomize_position(self):
         self.letakUlar = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
 
-    def draw(self, surface) :
+    def gambarObjek(self, surface) :
         r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
         pygame.draw.rect(surface, self.warna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
@@ -89,14 +89,14 @@ class MakananBonus() :
         self.letakUlar = (0,0)
         self.warna = (25, 163, 49)
         self.randomize_position()
-        self.waktu = 0
+        self.timer = 5
 
     def randomize_position(self):
         #i = 5
         #if i in range (0,5) :
             self.letakUlar = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
 
-    def draw(self, surface) :
+    def gambarObjek(self, surface) :
         r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
         pygame.draw.rect(surface, self.warna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
@@ -174,13 +174,14 @@ def main() :
         elif ular.get_head_position() == makananbonus.letakUlar :
             ular.PanjangUlar += 1
             ular.nilai += 5
-        if ular.nilai !=0 and ular.nilai % 5 == 0 and waktu % 5 !=0  :
-            makananbonus.draw(surface)
+            makananbonus.randomize_position()
+        if ular.nilai !=0 and ular.nilai % 5 == 0 :
+               makananbonus.gambarObjek(surface)
+               waktu += 1
         ular.draw(surface)
-        makanan.draw(surface)
+        makanan.gambarObjek(surface)
         #if ular.nilai !=0 and ular.nilai % 5 == 0 :
 
-        waktu += 1
         screen.blit(surface, (0,0)) #menampilkan gambar pada window game
         text = myfont.render("Score : {0}".format(ular.nilai), 1, (0,0,0))
         screen.blit(text, (5,10))
