@@ -7,7 +7,7 @@ from uni_vars import *
 class Ular():
     def __init__(self):
         self.PanjangUlar = 1
-        self.letakUlar = [((screen_width/2), (screen_height/2))]
+        self.letakUlar = [((lebar_layar/2), (tinggi_layar/2))]
         self.arahUlar = random.choice([atas, bawah, kiri, kanan])
         self.nilai = 0
         self.kecepatan = 10    
@@ -25,10 +25,10 @@ class Ular():
     def move(self) :
         cur = self.get_head_position()
         x,y = self.arahUlar
-        new = (((cur[0]+(x*gridsize))%screen_width), (cur[1]+(y*gridsize))%screen_height)
+        new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
         if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
             self.reset()
-        #elif cur == self.letakUlar[0,new] or cur == self.letakUlar[screen_width,new] or cur == self.letakUlar[new,0] or cur == self.letakUla[new,screen_height]:
+        #elif cur == self.letakUlar[0,new] or cur == self.letakUlar[lebar_layar,new] or cur == self.letakUlar[new,0] or cur == self.letakUla[new,tinggi_layar]:
             #self.reset()
         else :
             self.letakUlar.insert(0,new)
@@ -37,7 +37,7 @@ class Ular():
     
     def reset(self) :
         self.PanjangUlar = 1
-        self.letakUlar = [((screen_width/2), (screen_height/2))]
+        self.letakUlar = [((lebar_layar/2), (tinggi_layar/2))]
         self.arahUlar = random.choice([atas, bawah, kiri, kanan])
         self.nilai = 0
         self.kecepatan = 10
@@ -47,11 +47,11 @@ class Ular():
         for p in self.letakUlar:
             r = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
             if i == 0 :#penanda kepala
-                self.color = (25, 24, 47)
-                pygame.draw.rect(surface, self.color, r)
+                self.warna = (25, 24, 47)
+                pygame.draw.rect(surface, self.warna, r)
             else :
-                self.color = (255, 24, 47)
-                pygame.draw.rect(surface, self.color, r)
+                self.warna = (255, 24, 47)
+                pygame.draw.rect(surface, self.warna, r)
             pygame.draw.rect(surface, (25,24,228), r, 1)
             i +=1
 
@@ -73,7 +73,7 @@ class Ular():
 class Makanan() :
     def __init__(self):
         self.letakUlar = (0,0)
-        self.color = (223, 163, 49)
+        self.warna = (223, 163, 49)
         self.randomize_position()
 
     def randomize_position(self):
@@ -81,13 +81,13 @@ class Makanan() :
 
     def draw(self, surface) :
         r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
-        pygame.draw.rect(surface, self.color, r)
+        pygame.draw.rect(surface, self.warna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
 class MakananBonus() :
     def __init__(self):
         self.letakUlar = (0,0)
-        self.color = (25, 163, 49)
+        self.warna = (25, 163, 49)
         self.randomize_position()
         self.waktu = 0
 
@@ -98,7 +98,7 @@ class MakananBonus() :
 
     def draw(self, surface) :
         r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
-        pygame.draw.rect(surface, self.color, r)
+        pygame.draw.rect(surface, self.warna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
 def GambarKotak(surface) :
@@ -112,12 +112,12 @@ def GambarKotak(surface) :
                 pygame.draw.rect(surface, (84,194,205), rr)
 
 #GLOBAL VARIABEL
-screen_width = 480
-screen_height = 480
+lebar_layar = 480
+tinggi_layar = 480
 
 gridsize = 20
-grid_width = screen_width/gridsize
-grid_height = screen_height/gridsize
+grid_width = lebar_layar/gridsize
+grid_height = tinggi_layar/gridsize
 
 atas = (0, -1)
 bawah = (0, 1)
@@ -146,7 +146,7 @@ def main() :
     pygame.init() #buat screen
     
     clock = pygame.time.Clock()
-    screen = pygame.display.set_mode((screen_width, screen_height), 0, 32)
+    screen = pygame.display.set_mode((lebar_layar, tinggi_layar), 0, 32)
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
@@ -180,7 +180,7 @@ def main() :
         #if ular.nilai !=0 and ular.nilai % 5 == 0 :
 
         waktu += 1
-        screen.blit(surface, (0,0))
+        screen.blit(surface, (0,0)) #menampilkan gambar pada window game
         text = myfont.render("Score : {0}".format(ular.nilai), 1, (0,0,0))
         screen.blit(text, (5,10))
         pygame.display.update()
