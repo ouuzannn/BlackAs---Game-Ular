@@ -4,47 +4,47 @@ import random
 from menu import Menu
 from uni_vars import *
 
-class Snake():
+class Ular():
     def __init__(self):
         self.PanjangUlar = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
-        self.direction = random.choice([up, down, left, right])
-        self.score = 0
+        self.letakUlar = [((screen_width/2), (screen_height/2))]
+        self.arahUlar = random.choice([atas, bawah, kiri, kanan])
+        self.nilai = 0
         self.kecepatan = 10    
 
     def get_head_position(self) :
-        return self.positions[0]
+        return self.letakUlar[0]
 
 
     def turn(self, point):
-        if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.direction:
+        if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.arahUlar:
             return
         else :
-            self.direction = point
+            self.arahUlar = point
 
     def move(self) :
         cur = self.get_head_position()
-        x,y = self.direction
+        x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%screen_width), (cur[1]+(y*gridsize))%screen_height)
-        if (len(self.positions) > 2 and new in self.positions[2:]) :
+        if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
             self.reset()
-        #elif cur == self.positions[0,new] or cur == self.positions[screen_width,new] or cur == self.positions[new,0] or cur == self.positions[new,screen_height]:
+        #elif cur == self.letakUlar[0,new] or cur == self.letakUlar[screen_width,new] or cur == self.letakUlar[new,0] or cur == self.letakUla[new,screen_height]:
             #self.reset()
         else :
-            self.positions.insert(0,new)
-            if len(self.positions) > self.PanjangUlar :
-                self.positions.pop()
+            self.letakUlar.insert(0,new)
+            if len(self.letakUlar) > self.PanjangUlar :
+                self.letakUlar.pop()
     
     def reset(self) :
         self.PanjangUlar = 1
-        self.positions = [((screen_width/2), (screen_height/2))]
-        self.direction = random.choice([up, down, left, right])
-        self.score = 0
+        self.letakUlar = [((screen_width/2), (screen_height/2))]
+        self.arahUlar = random.choice([atas, bawah, kiri, kanan])
+        self.nilai = 0
         self.kecepatan = 10
 
     def draw(self, surface):
         i = 0
-        for p in self.positions:
+        for p in self.letakUlar:
             r = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
             if i == 0 :#penanda kepala
                 self.color = (25, 24, 47)
@@ -62,40 +62,42 @@ class Snake():
                 sys.exit()
             elif event.type == pygame.KEYDOWN :
                 if event.key == pygame.K_UP:
-                    self.turn(up)
+                    self.turn(atas)
                 elif event.key == pygame.K_DOWN :
-                    self.turn(down)
+                    self.turn(bawah)
                 elif event.key == pygame.K_LEFT :
-                    self.turn(left)
+                    self.turn(kiri)
                 elif event.key == pygame.K_RIGHT :
-                    self.turn(right)
+                    self.turn(kanan)
 
-class Food() :
+class Makanan() :
     def __init__(self):
-        self.position = (0,0)
+        self.letakUlar = (0,0)
         self.color = (223, 163, 49)
         self.randomize_position()
 
     def randomize_position(self):
-        self.position = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
+        self.letakUlar = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
 
     def draw(self, surface) :
-        r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))
+        r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
         pygame.draw.rect(surface, self.color, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
-class FoodBonus() :
+class MakananBonus() :
     def __init__(self):
-        self.position = (0,0)
+        self.letakUlar = (0,0)
         self.color = (25, 163, 49)
         self.randomize_position()
-        self.timer = 0
+        self.waktu = 0
 
     def randomize_position(self):
-        self.position = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
+        #i = 5
+        #if i in range (0,5) :
+            self.letakUlar = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
 
     def draw(self, surface) :
-        r = pygame.Rect((self.position[0], self.position[1]), (gridsize, gridsize))
+        r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
         pygame.draw.rect(surface, self.color, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
@@ -117,16 +119,16 @@ gridsize = 20
 grid_width = screen_width/gridsize
 grid_height = screen_height/gridsize
 
-up = (0, -1)
-down = (0, 1)
-left = (-1, 0)
-right = (1,0)
+atas = (0, -1)
+bawah = (0, 1)
+kiri = (-1, 0)
+kanan = (1,0)
 
 def menu():
 	main_menu = Menu()
 
 	while main_menu.running:
-		clock.tick(100)
+		clock.tick(40)
 
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
@@ -150,39 +152,38 @@ def main() :
     surface = surface.convert()
     GambarKotak(surface)
 
-    snake = Snake()
-    food = Food()
-    foodbonus = FoodBonus()
-    timer = 0
+    ular = Ular()
+    makanan = Makanan()
+    makananbonus = MakananBonus()
+    waktu = 0
     
     myfont = pygame.font.SysFont("monospace",50)
 
     while True :
-        clock.tick(snake.kecepatan) #kecepatan ular
-        snake.KontrolUlar()
+        clock.tick(ular.kecepatan) #kecepatan ular
+        ular.KontrolUlar()
         GambarKotak(surface)
-        snake.move()
-        if snake.get_head_position() == food.position :
-            snake.PanjangUlar += 1
-            snake.score += 1
-            food.randomize_position()
-            if snake.score%10==0:
-                snake.kecepatan+=4
-        elif snake.get_head_position() == foodbonus.position :
-            snake.PanjangUlar += 1
-            snake.score += 5
-        if snake.score !=0 and snake.score % 5 == 0 and timer % 5 !=0  :
-            foodbonus.draw(surface)
-        snake.draw(surface)
-        food.draw(surface)
-        #if snake.score !=0 and snake.score % 5 == 0 :
+        ular.move()
+        if ular.get_head_position() == makanan.letakUlar :
+            ular.PanjangUlar += 1
+            ular.nilai += 1
+            makanan.randomize_position()
+            if ular.nilai%10==0:
+                ular.kecepatan+=4
+        elif ular.get_head_position() == makananbonus.letakUlar :
+            ular.PanjangUlar += 1
+            ular.nilai += 5
+        if ular.nilai !=0 and ular.nilai % 5 == 0 and waktu % 5 !=0  :
+            makananbonus.draw(surface)
+        ular.draw(surface)
+        makanan.draw(surface)
+        #if ular.nilai !=0 and ular.nilai % 5 == 0 :
 
-        timer += 1
+        waktu += 1
         screen.blit(surface, (0,0))
-        text = myfont.render("Score {0}".format(snake.score), 1, (0,0,0))
+        text = myfont.render("Score : {0}".format(ular.nilai), 1, (0,0,0))
         screen.blit(text, (5,10))
         pygame.display.update()
-
-
+        
 menu()
 main()
