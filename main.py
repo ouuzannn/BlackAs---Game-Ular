@@ -10,7 +10,7 @@ class Ular():
         self.letakUlar = [((lebar_layar/2), (tinggi_layar/2))]
         self.arahUlar = random.choice([atas, bawah, kiri, kanan])
         self.nilai = 0
-        self.kecepatan = 7
+        self.kecepatan = 5
         self.hitungmakanan = 0
 
     def get_head_position(self) :
@@ -39,7 +39,7 @@ class Ular():
         self.letakUlar = [((lebar_layar/2), (tinggi_layar/2))]
         self.arahUlar = random.choice([atas, bawah, kiri, kanan])
         self.nilai = 0
-        self.kecepatan = 7
+        self.kecepatan = 5
         self.hitungmakanan = 0
 
     def draw(self, surface):
@@ -110,6 +110,12 @@ def GambarKotak(surface) :
             else :
                 rr = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
                 pygame.draw.rect(surface, (84,194,205), rr)
+    for y in range(0, int(grid_height)) :
+        for x in range(0, int(grid_width)) :
+            if (x<1 or y<1 or x>22 or y>22):
+                xxx = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
+                pygame.draw.rect(surface,(0,0,0), xxx)
+
 
 #GLOBAL VARIABEL
 lebar_layar = 480
@@ -158,7 +164,7 @@ def main() :
     waktu = 0
     
     #Setting ukuran dan jenis font dari tulisan score
-    myfont = pygame.font.SysFont("monospace",28)
+    myfont = pygame.font.SysFont("monospace",18)
 
     while True :
         clock.tick(ular.kecepatan) #kecepatan ular
@@ -185,8 +191,8 @@ def main() :
         #if ular.nilai !=0 and ular.nilai % 5 == 0 :
 
         screen.blit(surface, (0,0)) #menampilkan gambar pada window game
-        text = myfont.render("Score : {0}".format(ular.nilai), 1, (0,0,0))
-        screen.blit(text, (5,10))
+        text = myfont.render("Score : {0}".format(ular.nilai), 1, (255,255,255))
+        screen.blit(text, (20,0))
         pygame.display.update()
         
 menu()
