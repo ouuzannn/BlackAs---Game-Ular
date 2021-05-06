@@ -27,8 +27,8 @@ class Ular():
         new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
         if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
             self.reset()            
-        #elif cur == self.letakUlar[0,new] or cur == self.letakUlar[lebar_layar,new] or cur == self.letakUlar[new,0] or cur == self.letakUla[new,tinggi_layar]:
-            #self.reset()
+        elif cur[0] >= (lebar_layar-20) or cur[0] <= 0 or cur[1] >= (tinggi_layar-20) or cur[1] <= 0:
+            self.reset()
         else :
             self.letakUlar.insert(0,new)
             if len(self.letakUlar) > self.PanjangUlar :
@@ -77,7 +77,7 @@ class Makanan() :
         self.randomize_position()
 
     def randomize_position(self):
-        self.letakUlar = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
+        self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface) :
         r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
@@ -94,7 +94,7 @@ class MakananBonus() :
     def randomize_position(self):
         #i = 5
         #if i in range (0,5) :
-            self.letakUlar = (random.randint(0, grid_width-1)*gridsize, random.randint(0, grid_height-1)*gridsize)
+            self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface) :
         r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
