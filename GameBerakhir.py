@@ -40,7 +40,7 @@ class TombolMenu:
         self.window.blit(teks, (x, y))
 
 
-class Menu:
+class Mati:
 	def __init__(self):
 		self.ukuran_judul = 50
 		self.warna_judul = [255, 255, 255]
@@ -51,7 +51,7 @@ class Menu:
 		self.btn_height = 65
 		self.menu_play = TombolMenu(win, (width / 2 - self.btn_width / 2), (height / 2.2),
                          self.btn_width, self.btn_height,
-                         teks='Main lagi', ukuran_teks=20)
+                         teks='Permainan Baru', ukuran_teks=20)
 
 		self.menu_keluar = TombolMenu(win, (width / 2 - self.btn_width / 2), (height / 2 + 75),
                          self.btn_width, self.btn_height,
@@ -85,7 +85,8 @@ class Menu:
 
 	def render(self):
 		self.pesan("GAME BERAKHIR", 40, (26, 255, 255), (width/2-50*2, self.posisi_judul[1]-50))
-		self.pesan("MAU ULANG ?", self.ukuran_judul, self.warna_judul, self.posisi_judul)
+		self.pesan("MAU NGULANG??", self.ukuran_judul, self.warna_judul, self.posisi_judul)
+
 
 		self.menu_play.render()
 		self.menu_keluar.render()

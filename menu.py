@@ -6,6 +6,7 @@ width, height = 400, 500
 background = (0, 0, 0)
 win = pygame.display.set_mode((width, height))
 
+
 class TombolMenu:
     def __init__(self, window, x, y, width, height, teks='', ukuran_teks=20):
         self.window = window
@@ -30,6 +31,7 @@ class TombolMenu:
             if mouse_x > self.x and mouse_x < self.x + self.width:
                 if mouse_y > self.y and mouse_y < self.y + self.height:
                     return True
+					
 
     def render(self):
 		#Posisi Teks Tombol
@@ -83,10 +85,13 @@ class Menu:
 			if self.show_controls == False:
 				self.show_controls = True
 
-	def render(self):
-		self.pesan("Welcome to", 40, (255, 255, 255), (width/2-50*2, self.posisi_judul[1]-50))
-		self.pesan("ULAR BlackAS", self.ukuran_judul, self.warna_judul, self.posisi_judul)
-
+	def render(self,cek):
+		if cek == 1 :
+			self.pesan("Welcome to", 40, (255, 255, 255), (width/2-50*2, self.posisi_judul[1]-50))
+			self.pesan("ULAR BlackAS", self.ukuran_judul, self.warna_judul, self.posisi_judul)
+		elif cek == 0 :
+			self.pesan("GAME OVER", 40, (255, 255, 255), (width/2-50*2, self.posisi_judul[1]-50))
+			self.pesan("MAU NGULANG", self.ukuran_judul, self.warna_judul, self.posisi_judul)
 		self.menu_play.render()
 		self.menu_keluar.render()
 

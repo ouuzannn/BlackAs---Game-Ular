@@ -2,8 +2,7 @@ import pygame
 import sys
 import random 
 from menu import Menu
-#from GameBerakhir import Mati
-
+from GameBerakhir import Mati
 
 class Ular():
     def __init__(self):
@@ -13,7 +12,7 @@ class Ular():
         self.nilai = 0
         self.kecepatan = 5
         self.hitungmakanan = 0
-
+        
     def get_head_position(self) :
         return self.letakUlar[0]
     def turn(self, point):
@@ -27,12 +26,13 @@ class Ular():
         x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
         if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
-            #akhir()
+            cek = 0
+            menu(cek)
             self.reset()            
         elif cur[0] >= (lebar_layar-20) or cur[0] <= 0 or cur[1] >= (tinggi_layar-20) or cur[1] <= 0:
-            #akhir()
+            cek = 0
+            menu(cek)
             self.reset()
-            menu()
         else :
             self.letakUlar.insert(0,new)
             if len(self.letakUlar) > self.PanjangUlar :
@@ -96,7 +96,7 @@ class MakananBonus() :
         self.timer = 0
 
     def randomize_position(self):
-            self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
+        self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface, pilihwarna) :
         r = pygame.Rect(((self.letakUlar[0]-5), (self.letakUlar[1]-5)), (30, 30))
@@ -134,8 +134,9 @@ atas = (0, -1)
 bawah = (0, 1)
 kiri = (-1, 0)
 kanan = (1,0)
+cek = bool(1)
             
-def menu():
+def menu(cek):
 	main_menu = Menu()
 
 	while main_menu.running:
@@ -149,28 +150,29 @@ def menu():
 
 		main_menu.logic()
 		win.fill(background)
-		main_menu.render()
+		main_menu.render(cek)
 		pygame.display.update()
 
-# def akhir():
-#     AkhirGame = Mati()
+def akhir():
+    AkhirGame = Mati()
 
-#     while AkhirGame.running :
-#         clock.tick(40)
+    while AkhirGame.running :
+        clock.tick(40)
 
-#         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:
-#                 global running
-#                 AkhirGame.running = False
-#                 running = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                global running
+                AkhirGame.running = False
+                running = False
 
-#         AkhirGame.logic
-#         win.fill(background)
-#         AkhirGame.render()
-#         pygame.display.update()
+        AkhirGame.logic
+        win.fill(background)
+        AkhirGame.render()
+        pygame.display.update()
+
         
 def main() :
-    menu()
+    menu(cek)
     # if menu.main_menu.show_controls :
     #     return 0
     pygame.init() #buat screen
@@ -192,8 +194,11 @@ def main() :
     hitung=0
     #Setting ukuran dan jenis font dari tulisan score
     myfont = pygame.font.SysFont("monospace",18)
+    HitungWaktu = 0
 
     while True :
+        if True :
+            HitungWaktu += 1
         clock.tick(ular.kecepatan) #kecepatan ular
         ular.KontrolUlar()
         GambarKotak(surface)
@@ -206,7 +211,7 @@ def main() :
             makanan.randomize_position()
             if ular.nilai%10==0:
                 ular.kecepatan+=4
-        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0:
+        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 and HitungWaktu!=0 and HitungWaktu % 5 !=0 and HitungWaktu*100 >5000 :
             if hitung%2==0:
                 pilihwarna=warnaa[0]
             else:
