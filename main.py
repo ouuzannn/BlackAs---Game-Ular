@@ -2,7 +2,6 @@ import pygame
 import sys
 import random 
 from menu import Menu
-from uni_vars import *
 
 class Ular():
     def __init__(self):
@@ -87,18 +86,16 @@ class Makanan() :
 class MakananBonus() :
     def __init__(self):
         self.letakUlar = (0,0)
-        self.warna = (25, 163, 49)
+        #self.warna = [(25, 163, 49), (0,0,0)]
         self.randomize_position()
-        self.timer = 5
+        self.timer = 0
 
     def randomize_position(self):
-        #i = 5
-        #if i in range (0,5) :
             self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
-    def gambarObjek(self, surface) :
-        r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
-        pygame.draw.rect(surface, self.warna, r)
+    def gambarObjek(self, surface, pilihwarna) :
+        r = pygame.Rect(((self.letakUlar[0]-5), (self.letakUlar[1]-5)), (30, 30))
+        pygame.draw.rect(surface, pilihwarna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
 def GambarKotak(surface) :
@@ -118,8 +115,11 @@ def GambarKotak(surface) :
 
 
 #GLOBAL VARIABEL
+clock = pygame.time.Clock()
 lebar_layar = 480
 tinggi_layar = 480
+background = (0, 0, 0)
+win = pygame.display.set_mode((lebar_layar, tinggi_layar))
 
 gridsize = 20
 grid_width = lebar_layar/gridsize
@@ -129,7 +129,7 @@ atas = (0, -1)
 bawah = (0, 1)
 kiri = (-1, 0)
 kanan = (1,0)
-
+            
 def menu():
 	main_menu = Menu()
 
@@ -149,6 +149,7 @@ def menu():
 
 
 def main() :
+    menu()
     pygame.init() #buat screen
     
     clock = pygame.time.Clock()
@@ -161,8 +162,11 @@ def main() :
     ular = Ular()
     makanan = Makanan()
     makananbonus = MakananBonus()
-    waktu = 0
-    
+
+    putih=(255, 255, 255)
+    hijau=(25, 163, 49)
+    warnaa=[putih,hijau]
+    hitung=0
     #Setting ukuran dan jenis font dari tulisan score
     myfont = pygame.font.SysFont("monospace",18)
 
@@ -171,29 +175,31 @@ def main() :
         ular.KontrolUlar()
         GambarKotak(surface)
         ular.move()
+        hitung += 1
         if ular.get_head_position() == makanan.letakUlar :
             ular.PanjangUlar += 1
             ular.nilai += 1
             ular.hitungmakanan += 1
             makanan.randomize_position()
             if ular.nilai%10==0:
-                ular.kecepatan+=4            
-        elif ular.get_head_position() == makananbonus.letakUlar :
-            ular.PanjangUlar += 1
-            ular.nilai += 5
-            ular.hitungmakanan += 1
-            makananbonus.randomize_position()
-        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 :
-               makananbonus.gambarObjek(surface)
-               waktu += 1
+                ular.kecepatan+=4
+        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0:
+            if hitung%2==0:
+                pilihwarna=warnaa[0]
+            else:
+                pilihwarna=warnaa[1]
+            makananbonus.gambarObjek(surface, pilihwarna)
+            if ular.get_head_position() == makananbonus.letakUlar :
+                ular.PanjangUlar += 1
+                ular.nilai += 5
+                ular.hitungmakanan += 1
+                makananbonus.randomize_position()
         ular.draw(surface)
         makanan.gambarObjek(surface)
-        #if ular.nilai !=0 and ular.nilai % 5 == 0 :
 
         screen.blit(surface, (0,0)) #menampilkan gambar pada window game
-        text = myfont.render("Score : {0}".format(ular.nilai), 1, (255,255,255))
+        text = myfont.render("Score : {0}".format(ular.nilai), 1, (putih))
         screen.blit(text, (20,0))
         pygame.display.update()
         
-menu()
 main()

@@ -1,8 +1,10 @@
 import pygame
 from random import randint
-from uni_vars import win, width, height
 pygame.font.init()
 
+width, height = 500, 500
+background = (0, 0, 0)
+win = pygame.display.set_mode((width, height))
 
 class TombolMenu:
     def __init__(self, window, x, y, width, height, teks='', ukuran_teks=20):
