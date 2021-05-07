@@ -32,6 +32,7 @@ class Ular():
         elif cur[0] >= (lebar_layar-20) or cur[0] <= 0 or cur[1] >= (tinggi_layar-20) or cur[1] <= 0:
             #akhir()
             self.reset()
+            menu()
         else :
             self.letakUlar.insert(0,new)
             if len(self.letakUlar) > self.PanjangUlar :
