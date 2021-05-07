@@ -2,6 +2,8 @@ import pygame
 import sys
 import random 
 from menu import Menu
+#from GameBerakhir import Mati
+
 
 class Ular():
     def __init__(self):
@@ -25,8 +27,10 @@ class Ular():
         x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
         if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
+            #akhir()
             self.reset()            
         elif cur[0] >= (lebar_layar-20) or cur[0] <= 0 or cur[1] >= (tinggi_layar-20) or cur[1] <= 0:
+            #akhir()
             self.reset()
         else :
             self.letakUlar.insert(0,new)
@@ -42,17 +46,17 @@ class Ular():
         self.hitungmakanan = 0
 
     def draw(self, surface):
-        i = 0
+        PenandaKepala = 0
         for p in self.letakUlar:
             r = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
-            if i == 0 :#penanda kepala
+            if PenandaKepala == 0 :#penanda kepala
                 self.warna = (25, 24, 47)
                 pygame.draw.rect(surface, self.warna, r)
             else :
                 self.warna = (255, 24, 47)
                 pygame.draw.rect(surface, self.warna, r)
             pygame.draw.rect(surface, (25,24,228), r, 1)
-            i +=1
+            PenandaKepala +=1
 
     def KontrolUlar(self):
         for event in pygame.event.get():
@@ -147,9 +151,27 @@ def menu():
 		main_menu.render()
 		pygame.display.update()
 
+# def akhir():
+#     AkhirGame = Mati()
 
+#     while AkhirGame.running :
+#         clock.tick(40)
+
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 global running
+#                 AkhirGame.running = False
+#                 running = False
+
+#         AkhirGame.logic
+#         win.fill(background)
+#         AkhirGame.render()
+#         pygame.display.update()
+        
 def main() :
     menu()
+    # if menu.main_menu.show_controls :
+    #     return 0
     pygame.init() #buat screen
     
     clock = pygame.time.Clock()
@@ -201,5 +223,5 @@ def main() :
         text = myfont.render("Score : {0}".format(ular.nilai), 1, (putih))
         screen.blit(text, (20,0))
         pygame.display.update()
-        
+
 main()
