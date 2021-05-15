@@ -33,6 +33,7 @@ class Ular():
             cek = 0
             menu(cek)
             self.reset()
+            menu()
         else :
             self.letakUlar.insert(0,new)
             if len(self.letakUlar) > self.PanjangUlar :
