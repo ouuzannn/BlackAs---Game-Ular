@@ -67,14 +67,14 @@ class Ular():
             if event.type == pygame.QUIT :
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN :
-                if event.key == pygame.K_UP:
+            elif event.type == pygame.tombolBawah :
+                if event.key == pygame.t_atas:
                     self.turn(atas)
-                elif event.key == pygame.K_DOWN :
+                elif event.key == pygame.t_bawah :
                     self.turn(bawah)
-                elif event.key == pygame.K_LEFT :
+                elif event.key == pygame.t_kiri :
                     self.turn(kiri)
-                elif event.key == pygame.K_RIGHT :
+                elif event.key == pygame.t_kanan :
                     self.turn(kanan)
 
 class Makanan() :
@@ -127,7 +127,7 @@ class kotak :
 clock = pygame.time.Clock()
 lebar_layar = 480
 tinggi_layar = 480
-background = (0, 0, 0)
+latar = (0, 0, 0)
 win = pygame.display.set_mode((lebar_layar, tinggi_layar))
 pygame.init()
 bonus=bool(0)
@@ -141,7 +141,7 @@ bawah = (0, 1)
 kiri = (-1, 0)
 kanan = (1,0)
 
-def mainin(index) :
+def mainin(indeks) :
     # if menu.main_menu.show_controls :
     #     return 0
      #buat screen
@@ -167,11 +167,11 @@ def mainin(index) :
     tampilbonus = bool(1)
 
     while True :
-        if index == 1:
+        if indeks == 1:
             pygame.quit()
             sys.exit()
 
-        #print (index) 
+        #print (indeks) 
         clock.tick(ular.kecepatan) #kecepatan ular
         ular.KontrolUlar()
         #kotak.GambarKotak(surface)

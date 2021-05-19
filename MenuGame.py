@@ -70,7 +70,7 @@ class PyMenu(object):
         self._indeks -= 1
         if self._indeks < 0:
           self._indeks += (self._indeksMaks+1)
-      if event.kunci == t_Bawah or event.kunci == ord('s'):
+      if event.kunci == t_bawah or event.kunci == ord('s'):
         self._indeks += 1
         if self._indeks > (self._indeksMaks):
           self._indeks -= (self._indeksMaks+1)
