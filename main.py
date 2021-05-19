@@ -22,7 +22,7 @@ class Ular():
         else :
             self.arahUlar = point
 
-    def move(self) :
+    def PergerakanUlar(self) :
         cur = self.get_head_position()
         x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
@@ -106,20 +106,21 @@ class MakananBonus() :
         pygame.draw.rect(surface, pilihwarna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
-def GambarKotak(surface) :
-    for y in range(0, int(grid_height)) :
-        for x in range(0, int(grid_width)) :
-            if (x+y) %2 == 0:
-                r = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
-                pygame.draw.rect(surface,(93,216,228), r)
-            else :
-                rr = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
-                pygame.draw.rect(surface, (84,194,205), rr)
-    for y in range(0, int(grid_height)) :
-        for x in range(0, int(grid_width)) :
-            if (x<1 or y<1 or x>22 or y>22):
-                xxx = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
-                pygame.draw.rect(surface,(0,0,0), xxx)
+class kotak : 
+    def GambarKotak(self,surface) :
+        for y in range(0, int(grid_height)) :
+            for x in range(0, int(grid_width)) :
+                if (x+y) %2 == 0:
+                    r = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
+                    pygame.draw.rect(surface,(93,216,228), r)
+                else :
+                    rr = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
+                    pygame.draw.rect(surface, (84,194,205), rr)
+        for y in range(0, int(grid_height)) :
+            for x in range(0, int(grid_width)) :
+                if (x<1 or y<1 or x>22 or y>22):
+                    xxx = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
+                    pygame.draw.rect(surface,(0,0,0), xxx)
 
 
 #GLOBAL VARIABEL
@@ -150,8 +151,9 @@ def mainin(index) :
 
     surface = pygame.Surface(screen.get_size())
     surface = surface.convert()
-    GambarKotak(surface)
-
+    
+    #deklarasi objek
+    papan = kotak()
     ular = Ular()
     makanan = Makanan()
     makananbonus = MakananBonus()
@@ -162,6 +164,7 @@ def mainin(index) :
     hitung=0
     #Setting ukuran dan jenis font dari tulisan score
     myfont = pygame.font.SysFont("monospace",18)
+    tampilbonus = bool(1)
 
     while True :
         if index == 1:
@@ -171,8 +174,9 @@ def mainin(index) :
         #print (index) 
         clock.tick(ular.kecepatan) #kecepatan ular
         ular.KontrolUlar()
-        GambarKotak(surface)
-        ular.move()
+        #kotak.GambarKotak(surface)
+        papan.GambarKotak(surface)
+        ular.PergerakanUlar()
         hitung += 1
         if ular.get_head_position() == makanan.letakUlar :
             ular.PanjangUlar += 1
@@ -181,7 +185,9 @@ def mainin(index) :
             makanan.randomize_position()
             if ular.nilai%10==0:
                 ular.kecepatan+=4
-        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 :
+        if ular.hitungmakanan > 5 and ular.hitungmakanan % 5 ==0 :
+            tampilbonus = 1
+        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 and tampilbonus == 1 :
             if hitung%2==0:
                 pilihwarna=warnaa[0]
             else:
@@ -190,7 +196,8 @@ def mainin(index) :
             if ular.get_head_position() == makananbonus.letakUlar :
                 ular.PanjangUlar += 1
                 ular.nilai += 5
-                ular.hitungmakanan += 1
+                #ular.hitungmakanan += 1
+                tampilbonus = 0
                 makananbonus.randomize_position()
         ular.draw(surface)
         makanan.gambarObjek(surface)
