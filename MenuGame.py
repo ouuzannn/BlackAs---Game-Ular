@@ -6,20 +6,20 @@ from konstanta import *
 
 class PyMenu(object):
   """ A class that can create and draw a simple game menu
-    with custom buttons and colors, from where the
+    with custom Tombol and colors, from where the
     different game modes can be accessed. """
 
-  def __init__(self, menucolor, x=0, y=0, title="", font="Krungthep"):
-    """ Initializes the menu title, buttons, commands, index and color. """
-    # menu title, buttons and commands
+  def __init__(self, menuwarna, x=0, y=0, title="", font="Krungthep"):
+    """ Initializes the menu title, Tombol, commands, index and color. """
+    # menu title, Tombol and commands
     self.titleButton = TombolMenu.PyButton(x, y, title, font)
-    self.buttons = []
+    self.Tombol = []
     self.commands = []
 
     # menu index and color
     self._index = 1
-    self._maxIndex = len(self.buttons)-1
-    self.menucolor = menucolor
+    self._maxIndex = len(self.Tombol)-1
+    self.menuwarna = menuwarna
 
   def draw(self, surface):
     """ Draws the menu screen to the surface. """
@@ -27,30 +27,30 @@ class PyMenu(object):
       # check for events
       self._checkEvents()
       # draw background
-      surface.fill(self.menucolor)
+      surface.fill(self.menuwarna)
       # draw title
       if self.titleButton.text != "":
         self.titleButton.draw(surface)
       
-      # draw buttons
-      for button in self.buttons:
-        button.draw(surface)
+      # draw Tombol
+      for tombol in self.Tombol:
+        tombol.draw(surface)
 
-      # highlight buttons
-      for button in self.buttons:
-        if button.selected:
-          button.setHighlighted()
+      # highlight Tombol
+      for tombol in self.Tombol:
+        if tombol.selected:
+          tombol.setHighlighted()
         else:
-          button.setNormal()
+          tombol.setNormal()
 
       # update menu
       pygame.display.update()
 
-  def addButton(self, button, command):
-    """ Adds the given button to the menu. """
-    self.buttons.append(button)
+  def addButton(self, tombol, command):
+    """ Adds the given tombol to the menu. """
+    self.Tombol.append(tombol)
     self.commands.append(command)
-    self._maxIndex = len(self.buttons)-1
+    self._maxIndex = len(self.Tombol)-1
 
   def _checkEvents(self):
     """ Checks for pygame events. """
@@ -59,7 +59,7 @@ class PyMenu(object):
       self._cekQuit(event)
       # check for keyboard events
       self._cekKeyboard(event)
-      # check for button events
+      # check for tombol events
       self._cekMouse(event)
 
   def _cekKeyboard(self, event):
@@ -75,29 +75,29 @@ class PyMenu(object):
         if self._index > (self._maxIndex):
           self._index -= (self._maxIndex+1)
       if event.kunci == t_enter:
-        self._perintahJalan(self._index) # call button action
-      # button selection
-      for button in self.buttons:
-        if button == self.buttons[self._index] and button.aktif:
-          button.selected = True
+        self._perintahJalan(self._index) # call tombol action
+      # tombol selection
+      for tombol in self.Tombol:
+        if tombol == self.Tombol[self._index] and tombol.aktif:
+          tombol.selected = True
         else:
-          button.selected = False
+          tombol.selected = False
 
   def _cekMouse(self, event):
     """ Check for mouse events. """
     # mouse motion events
     if event.tipe == gerakanMouse:
       for i in range(0, (self._maxIndex+1)):
-        if self.buttons[i].diarahkan():
-          self.buttons[i].selected = True
+        if self.Tombol[i].diarahkan():
+          self.Tombol[i].selected = True
           self._index = i
         else:
-          self.buttons[i].selected = False
+          self.Tombol[i].selected = False
     # mouse click events
     if event.tipe == TOMBOLATASMOUSE:
-      for button in self.buttons:
-        if button.diarahkan():
-          self._perintahJalan(self._index) # call button action
+      for tombol in self.Tombol:
+        if tombol.diarahkan():
+          self._perintahJalan(self._index) # call tombol action
 
   def _cekQuit(self, event):
     """ Checks if player wants to quit. """
