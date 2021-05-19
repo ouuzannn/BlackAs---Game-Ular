@@ -5,52 +5,52 @@ from pygame.locals import *
 from konstanta import *
 
 class PyMenu(object):
-  """ A class that can create and draw a simple game menu
+  """ A class that can create and tampilan a simple game menu
     with custom Tombol and colors, from where the
     different game modes can be accessed. """
 
-  def __init__(self, menuwarna, x=0, y=0, title="", font="Krungthep"):
-    """ Initializes the menu title, Tombol, commands, index and color. """
-    # menu title, Tombol and commands
-    self.titleButton = TombolMenu.PyButton(x, y, title, font)
+  def __init__(self, menuwarna, x=0, y=0, judul="", font="Krungthep"):
+    """ Initializes the menu judul, Tombol, perintah, indeks and color. """
+    # menu judul, Tombol and perintah
+    self.namaTombol = TombolMenu.PyButton(x, y, judul, font)
     self.Tombol = []
-    self.commands = []
+    self.perintah = []
 
-    # menu index and color
-    self._index = 1
-    self._maxIndex = len(self.Tombol)-1
+    # menu indeks and color
+    self._indeks = 1
+    self._indeksMaks = len(self.Tombol)-1
     self.menuwarna = menuwarna
 
-  def draw(self, surface):
-    """ Draws the menu screen to the surface. """
+  def tampilan(self, latar):
+    """ tampilans the menu screen to the latar. """
     while True:
       # check for events
       self._checkEvents()
-      # draw background
-      surface.fill(self.menuwarna)
-      # draw title
-      if self.titleButton.text != "":
-        self.titleButton.draw(surface)
+      # tampilan background
+      latar.fill(self.menuwarna)
+      # tampilan judul
+      if self.namaTombol.text != "":
+        self.namaTombol.tampilan(latar)
       
-      # draw Tombol
+      # tampilan Tombol
       for tombol in self.Tombol:
-        tombol.draw(surface)
+        tombol.tampilan(latar)
 
       # highlight Tombol
       for tombol in self.Tombol:
-        if tombol.selected:
+        if tombol.pilih:
           tombol.setHighlighted()
         else:
           tombol.setNormal()
 
       # update menu
-      pygame.display.update()
+      pygame.layar.update()
 
-  def addButton(self, tombol, command):
+  def pilihTombol(self, tombol, command):
     """ Adds the given tombol to the menu. """
     self.Tombol.append(tombol)
-    self.commands.append(command)
-    self._maxIndex = len(self.Tombol)-1
+    self.perintah.append(command)
+    self._indeksMaks = len(self.Tombol)-1
 
   def _checkEvents(self):
     """ Checks for pygame events. """
@@ -67,37 +67,37 @@ class PyMenu(object):
     # tombolBawah events
     if event.tipe == tombolBawah:
       if event.kunci == K_UP or event.kunci == ord('w'):
-        self._index -= 1
-        if self._index < 0:
-          self._index += (self._maxIndex+1)
+        self._indeks -= 1
+        if self._indeks < 0:
+          self._indeks += (self._indeksMaks+1)
       if event.kunci == t_Bawah or event.kunci == ord('s'):
-        self._index += 1
-        if self._index > (self._maxIndex):
-          self._index -= (self._maxIndex+1)
+        self._indeks += 1
+        if self._indeks > (self._indeksMaks):
+          self._indeks -= (self._indeksMaks+1)
       if event.kunci == t_enter:
-        self._perintahJalan(self._index) # call tombol action
+        self._perintahJalan(self._indeks) # call tombol action
       # tombol selection
       for tombol in self.Tombol:
-        if tombol == self.Tombol[self._index] and tombol.aktif:
-          tombol.selected = True
+        if tombol == self.Tombol[self._indeks] and tombol.aktif:
+          tombol.pilih = True
         else:
-          tombol.selected = False
+          tombol.pilih = False
 
   def _cekMouse(self, event):
     """ Check for mouse events. """
     # mouse motion events
     if event.tipe == gerakanMouse:
-      for i in range(0, (self._maxIndex+1)):
+      for i in range(0, (self._indeksMaks+1)):
         if self.Tombol[i].diarahkan():
-          self.Tombol[i].selected = True
-          self._index = i
+          self.Tombol[i].pilih = True
+          self._indeks = i
         else:
-          self.Tombol[i].selected = False
+          self.Tombol[i].pilih = False
     # mouse click events
     if event.tipe == TOMBOLATASMOUSE:
       for tombol in self.Tombol:
         if tombol.diarahkan():
-          self._perintahJalan(self._index) # call tombol action
+          self._perintahJalan(self._indeks) # call tombol action
 
   def _cekQuit(self, event):
     """ Checks if player wants to quit. """
@@ -109,6 +109,6 @@ class PyMenu(object):
         pygame.quit()
         sys.exit()
 
-  def _perintahJalan(self, index):
-    """ Calls the function corresponding to the index. """
-    return self.commands[index](index)
+  def _perintahJalan(self, indeks):
+    """ Calls the function corresponding to the indeks. """
+    return self.perintah[indeks](indeks)
