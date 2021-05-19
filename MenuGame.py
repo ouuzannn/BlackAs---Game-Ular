@@ -27,9 +27,9 @@ class PyMenu(object):
       # check for events
       self._checkEvents()
       # tampilan background
-      latar.fill(self.menuwarna)
+      latar.warna(self.menuwarna)
       # tampilan judul
-      if self.namaTombol.text != "":
+      if self.namaTombol.teks != "":
         self.namaTombol.tampilan(latar)
       
       # tampilan Tombol
@@ -46,7 +46,7 @@ class PyMenu(object):
       # update menu
       pygame.layar.update()
 
-  def pilihTombol(self, tombol, command):
+  def tambahkanTombol(self, tombol, command):
     """ Adds the given tombol to the menu. """
     self.Tombol.append(tombol)
     self.perintah.append(command)
@@ -66,7 +66,7 @@ class PyMenu(object):
     """ Check for keyboard events. """
     # tombolBawah events
     if event.tipe == tombolBawah:
-      if event.kunci == K_UP or event.kunci == ord('w'):
+      if event.kunci == t_atas or event.kunci == ord('w'):
         self._indeks -= 1
         if self._indeks < 0:
           self._indeks += (self._indeksMaks+1)

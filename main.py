@@ -223,8 +223,8 @@ def Menu(cek):
     newButton = TombolMenu.PyButton(lebar_layar/2, 130, "New Game")
     quitButton = TombolMenu.PyButton(tinggi_layar/2, 220, "Quit")
 
-    menu.addButton(newButton, mainin)
-    menu.addButton(quitButton, mainin)
+    menu.tambahkanTombol(newButton, mainin)
+    menu.tambahkanTombol(quitButton, mainin)
 
   # draw the menu
     menu.draw(window)
