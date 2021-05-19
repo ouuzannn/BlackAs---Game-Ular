@@ -27,24 +27,24 @@ class PyMenu(object):
       # check for events
       self._checkEvents()
       # tampilan background
-      latar.warna(self.menuwarna)
+      latar.fill(self.menuwarna)
       # tampilan judul
-      if self.namaTombol.teks != "":
-        self.namaTombol.tampilan(latar)
+      if self.namaTombol.text != "":  #teks
+        self.namaTombol.draw(latar) #tampilan
       
       # tampilan Tombol
       for tombol in self.Tombol:
-        tombol.tampilan(latar)
+        tombol.draw(latar)
 
       # highlight Tombol
       for tombol in self.Tombol:
-        if tombol.pilih:
+        if tombol.selected: #pilih
           tombol.setHighlighted()
         else:
           tombol.setNormal()
 
       # update menu
-      pygame.layar.update()
+      pygame.display.update() #layar
 
   def tambahkanTombol(self, tombol, command):
     """ Adds the given tombol to the menu. """
@@ -65,47 +65,47 @@ class PyMenu(object):
   def _cekKeyboard(self, event):
     """ Check for keyboard events. """
     # tombolBawah events
-    if event.tipe == tombolBawah:
-      if event.kunci == t_atas or event.kunci == ord('w'):
+    if event.type == KEYDOWN:
+      if event.key == K_UP or event.key == ord('w'):
         self._indeks -= 1
         if self._indeks < 0:
           self._indeks += (self._indeksMaks+1)
-      if event.kunci == t_Bawah or event.kunci == ord('s'):
+      if event.key == K_DOWN or event.key == ord('s'):
         self._indeks += 1
         if self._indeks > (self._indeksMaks):
           self._indeks -= (self._indeksMaks+1)
-      if event.kunci == t_enter:
+      if event.key == K_RETURN:
         self._perintahJalan(self._indeks) # call tombol action
       # tombol selection
       for tombol in self.Tombol:
-        if tombol == self.Tombol[self._indeks] and tombol.aktif:
-          tombol.pilih = True
+        if tombol == self.Tombol[self._indeks] and tombol.active:
+          tombol.selected = True
         else:
-          tombol.pilih = False
+          tombol.selected = False
 
   def _cekMouse(self, event):
     """ Check for mouse events. """
     # mouse motion events
-    if event.tipe == gerakanMouse:
+    if event.type == MOUSEMOTION:
       for i in range(0, (self._indeksMaks+1)):
-        if self.Tombol[i].diarahkan():
-          self.Tombol[i].pilih = True
+        if self.Tombol[i].isHovered():
+          self.Tombol[i].selected = True
           self._indeks = i
         else:
-          self.Tombol[i].pilih = False
+          self.Tombol[i].selected = False
     # mouse click events
-    if event.tipe == TOMBOLATASMOUSE:
+    if event.type == MOUSEBUTTONUP:
       for tombol in self.Tombol:
-        if tombol.diarahkan():
+        if tombol.isHovered():
           self._perintahJalan(self._indeks) # call tombol action
 
   def _cekQuit(self, event):
     """ Checks if player wants to quit. """
-    if event.tipe == QUIT:
+    if event.type == QUIT:
       pygame.quit()
       sys.exit()
-    if event.tipe == tombolBawah:
-      if event.kunci == t_esc:
+    if event.type == KEYDOWN:
+      if event.key == K_ESCAPE:
         pygame.quit()
         sys.exit()
 

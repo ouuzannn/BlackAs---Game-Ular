@@ -164,7 +164,7 @@ def mainin(index) :
     hitung=0
     #Setting ukuran dan jenis font dari tulisan score
     myfont = pygame.font.SysFont("monospace",18)
-    tampilbonus = bool(1)
+    #tampilbonus = bool(1)
 
     while True :
         if index == 1:
@@ -185,9 +185,12 @@ def mainin(index) :
             makanan.randomize_position()
             if ular.nilai%10==0:
                 ular.kecepatan+=4
-        if ular.hitungmakanan > 5 and ular.hitungmakanan % 5 ==0 :
-            tampilbonus = 1
-        if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 and tampilbonus == 1 :
+        
+        # if ular.hitungmakanan > 5 and (ular.hitungmakanan+1) % 5 ==0 :
+        #     tampilbonus = 1
+        #if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 and tampilbonus == 1 :
+
+        if (ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0) : #or (ular.hitungmakanan>5 and (ular.hitungmakanan-1)%5==0 and ular.nilai%5==0) :
             if hitung%2==0:
                 pilihwarna=warnaa[0]
             else:
@@ -196,8 +199,8 @@ def mainin(index) :
             if ular.get_head_position() == makananbonus.letakUlar :
                 ular.PanjangUlar += 1
                 ular.nilai += 5
-                #ular.hitungmakanan += 1
-                tampilbonus = 0
+                ular.hitungmakanan = 0
+                #tampilbonus = 0
                 makananbonus.randomize_position()
         ular.draw(surface)
         makanan.gambarObjek(surface)
@@ -227,7 +230,7 @@ def Menu(cek):
     menu.tambahkanTombol(quitButton, mainin)
 
   # draw the menu
-    menu.draw(window)
+    menu.tampilan(window)
     
 
 if __name__ == '__main__':
