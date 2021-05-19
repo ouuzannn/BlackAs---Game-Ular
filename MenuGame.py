@@ -56,59 +56,59 @@ class PyMenu(object):
     """ Checks for pygame events. """
     for event in pygame.event.get():
       # check if player quits
-      self._checkQuit(event)
+      self._cekQuit(event)
       # check for keyboard events
-      self._checkKeyboard(event)
+      self._cekKeyboard(event)
       # check for button events
-      self._checkMouse(event)
+      self._cekMouse(event)
 
-  def _checkKeyboard(self, event):
+  def _cekKeyboard(self, event):
     """ Check for keyboard events. """
-    # keydown events
-    if event.type == KEYDOWN:
-      if event.key == K_UP or event.key == ord('w'):
+    # tombolBawah events
+    if event.tipe == tombolBawah:
+      if event.kunci == K_UP or event.kunci == ord('w'):
         self._index -= 1
         if self._index < 0:
           self._index += (self._maxIndex+1)
-      if event.key == K_DOWN or event.key == ord('s'):
+      if event.kunci == t_Bawah or event.kunci == ord('s'):
         self._index += 1
         if self._index > (self._maxIndex):
           self._index -= (self._maxIndex+1)
-      if event.key == K_RETURN:
-        self._runCommand(self._index) # call button action
+      if event.kunci == t_enter:
+        self._perintahJalan(self._index) # call button action
       # button selection
       for button in self.buttons:
-        if button == self.buttons[self._index] and button.active:
+        if button == self.buttons[self._index] and button.aktif:
           button.selected = True
         else:
           button.selected = False
 
-  def _checkMouse(self, event):
+  def _cekMouse(self, event):
     """ Check for mouse events. """
     # mouse motion events
-    if event.type == MOUSEMOTION:
+    if event.tipe == gerakanMouse:
       for i in range(0, (self._maxIndex+1)):
-        if self.buttons[i].isHovered():
+        if self.buttons[i].diarahkan():
           self.buttons[i].selected = True
           self._index = i
         else:
           self.buttons[i].selected = False
     # mouse click events
-    if event.type == MOUSEBUTTONUP:
+    if event.tipe == TOMBOLATASMOUSE:
       for button in self.buttons:
-        if button.isHovered():
-          self._runCommand(self._index) # call button action
+        if button.diarahkan():
+          self._perintahJalan(self._index) # call button action
 
-  def _checkQuit(self, event):
+  def _cekQuit(self, event):
     """ Checks if player wants to quit. """
-    if event.type == QUIT:
+    if event.tipe == QUIT:
       pygame.quit()
       sys.exit()
-    if event.type == KEYDOWN:
-      if event.key == K_ESCAPE:
+    if event.tipe == tombolBawah:
+      if event.kunci == t_esc:
         pygame.quit()
         sys.exit()
 
-  def _runCommand(self, index):
+  def _perintahJalan(self, index):
     """ Calls the function corresponding to the index. """
     return self.commands[index](index)
