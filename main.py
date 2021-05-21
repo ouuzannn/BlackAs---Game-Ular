@@ -116,11 +116,12 @@ class kotak :
         for y in range(0, int(grid_height)) :
             for x in range(0, int(grid_width)) :
                 if (x+y) %2 == 0:
-                    r = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
-                    pygame.draw.rect(surface,(93,216,228), r)
+                    gridgenap = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
+                    pygame.draw.rect(surface,(93,216,228), gridgenap)
                 else :
-                    rr = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
-                    pygame.draw.rect(surface, (84,194,205), rr)
+                    gridganjil = pygame.Rect((x*gridsize, y*gridsize), (gridsize, gridsize))
+                    pygame.draw.rect(surface, (84,194,205), gridganjil)
+        #gambarborder
         for y in range(0, int(grid_height)) :
             for x in range(0, int(grid_width)) :
                 if (x<1 or y<1 or x>22 or y>22):
