@@ -67,15 +67,16 @@ class Ular():
             if event.type == pygame.QUIT :
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.tombolBawah :
-                if event.key == pygame.t_atas:
+            elif event.type == pygame.KEYDOWN :
+                if event.key == pygame.K_UP:
                     self.turn(atas)
-                elif event.key == pygame.t_bawah :
+                elif event.key == pygame.K_DOWN :
                     self.turn(bawah)
-                elif event.key == pygame.t_kiri :
+                elif event.key == pygame.K_LEFT :
                     self.turn(kiri)
-                elif event.key == pygame.t_kanan :
+                elif event.key == pygame.K_RIGHT :
                     self.turn(kanan)
+
 
 class Makanan() :
     def __init__(self):
@@ -97,6 +98,8 @@ class MakananBonus() :
         #self.warna = [(25, 163, 49), (0,0,0)]
         self.randomize_position()
         self.timer = 0
+        self.waktubonus = 25
+        self.tanda = 0
 
     def randomize_position(self):
             self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
@@ -178,30 +181,49 @@ def mainin(indeks) :
         papan.GambarKotak(surface)
         ular.PergerakanUlar()
         hitung += 1
+        
         if ular.get_head_position() == makanan.letakUlar :
             ular.PanjangUlar += 1
             ular.nilai += 1
             ular.hitungmakanan += 1
+            makananbonus.timer=0
+            print("k", ular.kecepatan)
             makanan.randomize_position()
             if ular.nilai%10==0:
-                ular.kecepatan+=4
-        
+                ular.kecepatan = ular.kecepatan * 1.5
+                makananbonus.waktubonus = makananbonus.waktubonus * 1.5
+                          
+        if(ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0):
+            makananbonus.tanda=1
+                    
         # if ular.hitungmakanan > 5 and (ular.hitungmakanan+1) % 5 ==0 :
         #     tampilbonus = 1
         #if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 and tampilbonus == 1 :
 
-        if (ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0) : #or (ular.hitungmakanan>5 and (ular.hitungmakanan-1)%5==0 and ular.nilai%5==0) :
+        if ( makananbonus.tanda==1 and makananbonus.timer<makananbonus.waktubonus) : #or (ular.hitungmakanan>5 and (ular.hitungmakanan-1)%5==0 and ular.nilai%5==0) :
             if hitung%2==0:
                 pilihwarna=warnaa[0]
             else:
                 pilihwarna=warnaa[1]
             makananbonus.gambarObjek(surface, pilihwarna)
+            makananbonus.timer+=1
+            #makananbonus.tanda=1
             if ular.get_head_position() == makananbonus.letakUlar :
                 ular.PanjangUlar += 1
                 ular.nilai += 5
                 ular.hitungmakanan = 0
+                makananbonus.tanda=0
+                makananbonus.timer=0
+                if ular.nilai%10==0:
+                    ular.kecepatan = ular.kecepatan * 1.5
+                    makananbonus.waktubonus = makananbonus.waktubonus * 1.5 
                 #tampilbonus = 0
-                makananbonus.randomize_position()
+                makananbonus.randomize_position()           
+            print("t", makananbonus.timer)
+            print("w", makananbonus.waktubonus)
+        elif makananbonus.timer>=makananbonus.waktubonus:
+            makananbonus.tanda=0         
+                
         ular.draw(surface)
         makanan.gambarObjek(surface)
 
