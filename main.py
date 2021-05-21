@@ -243,11 +243,11 @@ def Menu(cek):
         menu = MenuGame.PyMenu(RED, lebar_layar/2, 45, "PERMAINAN BERAKHIR")
   
   # create the buttons
-    newButton = TombolMenu.PyButton(lebar_layar/2, 130, "New Game")
-    quitButton = TombolMenu.PyButton(tinggi_layar/2, 220, "Quit")
+    TombolNewGame = TombolMenu.PyButton(lebar_layar/2, 130, "New Game")
+    TombolQuit = TombolMenu.PyButton(tinggi_layar/2, 220, "Quit")
 
-    menu.tambahkanTombol(newButton, mainin)
-    menu.tambahkanTombol(quitButton, mainin)
+    menu.tambahkanTombol(TombolNewGame, mainin)
+    menu.tambahkanTombol(TombolQuit, mainin)
 
   # draw the menu
     menu.tampilan(window)
