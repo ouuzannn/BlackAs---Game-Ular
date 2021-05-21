@@ -90,9 +90,9 @@ class Makanan() :
         self.letakmakanan = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface) :
-        r = pygame.Rect((self.letakmakanan[0], self.letakmakanan[1]), (gridsize, gridsize))
-        pygame.draw.rect(surface, self.warna, r)
-        pygame.draw.rect(surface, (93, 216, 228), r, 1)
+        gambarmakanan = pygame.Rect((self.letakmakanan[0], self.letakmakanan[1]), (gridsize, gridsize))
+        pygame.draw.rect(surface, self.warna, gambarmakanan)
+        pygame.draw.rect(surface, (93, 216, 228), gambarmakanan, 1)
 
 class MakananBonus() :
     def __init__(self):
@@ -107,9 +107,9 @@ class MakananBonus() :
             self.LetakMakananBonus = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface, pilihwarna) :
-        r = pygame.Rect(((self.LetakMakananBonus[0]-5), (self.LetakMakananBonus[1]-5)), (30, 30))
-        pygame.draw.rect(surface, pilihwarna, r)
-        pygame.draw.rect(surface, (93, 216, 228), r, 1)
+        gambarmakananbonus = pygame.Rect(((self.LetakMakananBonus[0]-5), (self.LetakMakananBonus[1]-5)), (30, 30))
+        pygame.draw.rect(surface, pilihwarna, gambarmakananbonus)
+        pygame.draw.rect(surface, (93, 216, 228), gambarmakananbonus, 1)
 
 class kotak : 
     def GambarKotak(self,surface) :
