@@ -8,25 +8,29 @@ class PyButton(object):
   def __init__(self, x, y, text, font="Krungthep", height=20, textcolor=WHITE, bgcolor=BLACK, hovercolor=GRAY):
     """ Creates a button object and its attributes. """
     self.x, self.y = x, y
-    self.font = font
+    self.FontHuruf = font
     self.height = height
     self.text = text
     self.textcolor = textcolor
     self.color = bgcolor
     self.bgcolor = bgcolor
     self.hovercolor = hovercolor
-    self.surf = self._renderText()
-    self.rect = self._createRect()
+    self.surf = self._renderteks()
+    self.rect = self._MembuatPersegiTeks()
     self.selected = True
     self.active = True
 
-  def _renderText(self):
+  #def _renderText(self):
+  #Untuk Merender teks
+  def _renderteks(self):
     """ Renders the button text to a surface. """
-    font = pygame.font.SysFont(self.font, self.height)
-    surface = font.render(self.text, True, self.textcolor, self.bgcolor)
+    FontHuruf = pygame.font.SysFont(self.FontHuruf, self.height)
+    surface = FontHuruf.render(self.text, True, self.textcolor, self.bgcolor)
     return surface
 
-  def _createRect(self):
+  #def _createRect(self):
+  #Untuk membuat surface persegi di teks
+  def _MembuatPersegiTeks(self):
     """ Creates a rectangle for the text surface. """
     button_rect = self.surf.get_rect()
     button_rect.center = (self.x, self.y)
@@ -34,7 +38,7 @@ class PyButton(object):
 
   def draw(self, surface):
     """ Draws the button to a surface. """
-    surface.blit(self._renderText(), self._createRect())
+    surface.blit(self._renderteks(), self._MembuatPersegiTeks())
 
   def setActive(self):
     """ Sets the button to active. """

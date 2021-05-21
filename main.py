@@ -3,6 +3,7 @@ import sys
 import random 
 import TombolMenu,MenuGame
 from konstanta import *
+import time
 
 
 class Ular():
@@ -14,8 +15,9 @@ class Ular():
         self.kecepatan = 5
         self.hitungmakanan = 0
 
-    def get_head_position(self) :
+    def KepalaUlar(self) :
         return self.letakUlar[0]
+    
     def turn(self, point):
         if self.PanjangUlar > 1 and (point[0]*-1, point[1]*-1) == self.arahUlar:
             return
@@ -23,7 +25,7 @@ class Ular():
             self.arahUlar = point
 
     def PergerakanUlar(self) :
-        cur = self.get_head_position()
+        cur = self.KepalaUlar()
         x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
         if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
@@ -49,7 +51,7 @@ class Ular():
         self.kecepatan = 5
         self.hitungmakanan = 0
 
-    def draw(self, surface):
+    def GambarUlar(self, surface):
         PenandaKepala = 0
         for p in self.letakUlar:
             r = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
@@ -82,9 +84,9 @@ class Makanan() :
     def __init__(self):
         self.letakUlar = (0,0)
         self.warna = (223, 163, 49)
-        self.randomize_position()
+        self.PosisiAcakMakanan()
 
-    def randomize_position(self):
+    def PosisiAcakMakanan(self):
         self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface) :
@@ -96,12 +98,12 @@ class MakananBonus() :
     def __init__(self):
         self.letakUlar = (0,0)
         #self.warna = [(25, 163, 49), (0,0,0)]
-        self.randomize_position()
+        self.PosisiAcakMakanan()
         self.timer = 0
         self.waktubonus = 25
         self.tanda = 0
 
-    def randomize_position(self):
+    def PosisiAcakMakanan(self):
             self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface, pilihwarna) :
@@ -134,6 +136,7 @@ latar = (0, 0, 0)
 win = pygame.display.set_mode((lebar_layar, tinggi_layar))
 pygame.init()
 bonus=bool(0)
+waktubatas = 5
 
 gridsize = 20
 grid_width = lebar_layar/gridsize
@@ -143,11 +146,9 @@ atas = (0, -1)
 bawah = (0, 1)
 kiri = (-1, 0)
 kanan = (1,0)
+hitung = 0
 
 def mainin(indeks) :
-    # if menu.main_menu.show_controls :
-    #     return 0
-     #buat screen
     
     clock = pygame.time.Clock()
     screen = pygame.display.set_mode((lebar_layar, tinggi_layar), 0, 32)
@@ -164,31 +165,29 @@ def mainin(indeks) :
     putih=(255, 255, 255)
     hijau=(25, 163, 49)
     warnaa=[putih,hijau]
+    hitungwaktu=0
     hitung=0
     #Setting ukuran dan jenis font dari tulisan score
     myfont = pygame.font.SysFont("monospace",18)
-    #tampilbonus = bool(1)
-
+    
     while True :
         if indeks == 1:
             pygame.quit()
             sys.exit()
 
-        #print (indeks) 
         clock.tick(ular.kecepatan) #kecepatan ular
         ular.KontrolUlar()
-        #kotak.GambarKotak(surface)
         papan.GambarKotak(surface)
         ular.PergerakanUlar()
         hitung += 1
         
-        if ular.get_head_position() == makanan.letakUlar :
+        if ular.KepalaUlar() == makanan.letakUlar :
             ular.PanjangUlar += 1
             ular.nilai += 1
             ular.hitungmakanan += 1
             makananbonus.timer=0
             print("k", ular.kecepatan)
-            makanan.randomize_position()
+            makanan.PosisiAcakMakanan()
             if ular.nilai%10==0:
                 ular.kecepatan = ular.kecepatan * 1.5
                 makananbonus.waktubonus = makananbonus.waktubonus * 1.5
@@ -196,19 +195,16 @@ def mainin(indeks) :
         if(ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0):
             makananbonus.tanda=1
                     
-        # if ular.hitungmakanan > 5 and (ular.hitungmakanan+1) % 5 ==0 :
-        #     tampilbonus = 1
-        #if ular.hitungmakanan !=0 and ular.hitungmakanan % 5 == 0 and tampilbonus == 1 :
-
-        if ( makananbonus.tanda==1 and makananbonus.timer<makananbonus.waktubonus) : #or (ular.hitungmakanan>5 and (ular.hitungmakanan-1)%5==0 and ular.nilai%5==0) :
+        if ( makananbonus.tanda==1 and makananbonus.timer<makananbonus.waktubonus) : 
             if hitung%2==0:
                 pilihwarna=warnaa[0]
             else:
                 pilihwarna=warnaa[1]
+          
             makananbonus.gambarObjek(surface, pilihwarna)
             makananbonus.timer+=1
-            #makananbonus.tanda=1
-            if ular.get_head_position() == makananbonus.letakUlar :
+
+            if ular.KepalaUlar() == makananbonus.letakUlar :
                 ular.PanjangUlar += 1
                 ular.nilai += 5
                 ular.hitungmakanan = 0
@@ -218,13 +214,14 @@ def mainin(indeks) :
                     ular.kecepatan = ular.kecepatan * 1.5
                     makananbonus.waktubonus = makananbonus.waktubonus * 1.5 
                 #tampilbonus = 0
-                makananbonus.randomize_position()           
+                makananbonus.PosisiAcakMakanan()           
             print("t", makananbonus.timer)
             print("w", makananbonus.waktubonus)
+            
         elif makananbonus.timer>=makananbonus.waktubonus:
-            makananbonus.tanda=0         
-                
-        ular.draw(surface)
+            makananbonus.tanda=0                       
+
+        ular.GambarUlar(surface)
         makanan.gambarObjek(surface)
 
         screen.blit(surface, (0,0)) #menampilkan gambar pada window game
