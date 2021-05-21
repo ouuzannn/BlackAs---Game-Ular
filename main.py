@@ -256,4 +256,4 @@ def Menu(cek):
 if __name__ == '__main__':
     Menu(cek)
 
-Menu()
+Menu(cek)
