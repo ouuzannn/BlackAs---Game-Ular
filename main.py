@@ -15,7 +15,7 @@ class Ular():
         self.kecepatan = 5
         self.hitungmakanan = 0
 
-    def KepalaUlar(self) :
+    def PosisiKepalaUlar(self) :
         return self.letakUlar[0]
     
     def turn(self, point):
@@ -25,7 +25,7 @@ class Ular():
             self.arahUlar = point
 
     def PergerakanUlar(self) :
-        cur = self.KepalaUlar()
+        cur = self.PosisiKepalaUlar()
         x,y = self.arahUlar
         new = (((cur[0]+(x*gridsize))%lebar_layar), (cur[1]+(y*gridsize))%tinggi_layar)
         if (len(self.letakUlar) > 2 and new in self.letakUlar[2:]) :
@@ -82,21 +82,21 @@ class Ular():
 
 class Makanan() :
     def __init__(self):
-        self.letakUlar = (0,0)
+        self.letakmakanan = (0,0)
         self.warna = (223, 163, 49)
         self.PosisiAcakMakanan()
 
     def PosisiAcakMakanan(self):
-        self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
+        self.letakmakanan = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface) :
-        r = pygame.Rect((self.letakUlar[0], self.letakUlar[1]), (gridsize, gridsize))
+        r = pygame.Rect((self.letakmakanan[0], self.letakmakanan[1]), (gridsize, gridsize))
         pygame.draw.rect(surface, self.warna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
 class MakananBonus() :
     def __init__(self):
-        self.letakUlar = (0,0)
+        self.LetakMakananBonus = (0,0)
         #self.warna = [(25, 163, 49), (0,0,0)]
         self.PosisiAcakMakanan()
         self.timer = 0
@@ -104,10 +104,10 @@ class MakananBonus() :
         self.tanda = 0
 
     def PosisiAcakMakanan(self):
-            self.letakUlar = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
+            self.LetakMakananBonus = (random.randint(1, grid_width-2)*gridsize, random.randint(1, grid_height-2)*gridsize)
 
     def gambarObjek(self, surface, pilihwarna) :
-        r = pygame.Rect(((self.letakUlar[0]-5), (self.letakUlar[1]-5)), (30, 30))
+        r = pygame.Rect(((self.LetakMakananBonus[0]-5), (self.LetakMakananBonus[1]-5)), (30, 30))
         pygame.draw.rect(surface, pilihwarna, r)
         pygame.draw.rect(surface, (93, 216, 228), r, 1)
 
@@ -181,7 +181,7 @@ def mainin(indeks) :
         ular.PergerakanUlar()
         hitung += 1
         
-        if ular.KepalaUlar() == makanan.letakUlar :
+        if ular.PosisiKepalaUlar() == makanan.letakmakanan :
             ular.PanjangUlar += 1
             ular.nilai += 1
             ular.hitungmakanan += 1
@@ -204,7 +204,7 @@ def mainin(indeks) :
             makananbonus.gambarObjek(surface, pilihwarna)
             makananbonus.timer+=1
 
-            if ular.KepalaUlar() == makananbonus.letakUlar :
+            if ular.PosisiKepalaUlar() == makananbonus.LetakMakananBonus :
                 ular.PanjangUlar += 1
                 ular.nilai += 5
                 ular.hitungmakanan = 0
@@ -217,7 +217,7 @@ def mainin(indeks) :
                 makananbonus.PosisiAcakMakanan()           
             print("t", makananbonus.timer)
             print("w", makananbonus.waktubonus)
-            
+
         elif makananbonus.timer>=makananbonus.waktubonus:
             makananbonus.tanda=0                       
 
