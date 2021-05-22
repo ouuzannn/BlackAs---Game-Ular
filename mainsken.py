@@ -1,10 +1,8 @@
 import pygame
 import sys
 import random 
-import TombolMenu,MenuGame
-from konstanta import *
-import time
-
+import tombolmenusken,menugamesken
+from konssken import *
 
 class Ular():
     def __init__(self):
@@ -54,14 +52,14 @@ class Ular():
     def GambarUlar(self, surface):
         PenandaKepala = 0
         for p in self.letakUlar:
-            bagianular = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
+            r = pygame.Rect((p[0], p[1]), (gridsize,gridsize))
             if PenandaKepala == 0 :#penanda kepala
                 self.warna = (25, 24, 47)
-                pygame.draw.rect(surface, self.warna, bagianular)
+                pygame.draw.rect(surface, self.warna, r)
             else :
                 self.warna = (255, 24, 47)
-                pygame.draw.rect(surface, self.warna, bagianular)
-            pygame.draw.rect(surface, (25,24,228), bagianular, 1)
+                pygame.draw.rect(surface, self.warna, r)
+            pygame.draw.rect(surface, (25,24,228), r, 1)
             PenandaKepala +=1
 
     def KontrolUlar(self):
@@ -78,7 +76,6 @@ class Ular():
                     self.turn(kiri)
                 elif event.key == pygame.K_RIGHT :
                     self.turn(kanan)
-
 
 class Makanan() :
     def __init__(self):
@@ -127,6 +124,7 @@ class kotak :
                 if (x<1 or y<1 or x>22 or y>22):
                     xxx = pygame.Rect((x*gridsize, y*gridsize), (gridsize,gridsize))
                     pygame.draw.rect(surface,(0,0,0), xxx)
+
 
 
 #GLOBAL VARIABEL
@@ -228,7 +226,7 @@ def mainin(indeks) :
         screen.blit(surface, (0,0)) #menampilkan gambar pada window game
         text = myfont.render("Score : {0}".format(ular.nilai), 1, (putih))
         screen.blit(text, (20,0))
-        pygame.display.update()  
+        pygame.display.update()
 
 cek=bool(1)
 
@@ -236,20 +234,20 @@ def Menu(cek):
     window = pygame.display.set_mode((lebar_layar, tinggi_layar), 0, 32)
 
     if cek == 1 :
-        menu = MenuGame.PyMenu(BLACK, lebar_layar/2, 45, "GAME ULAR BLACK AS")
+        menu = menugamesken.PyMenu(BLACK, lebar_layar/2, 45, "GAME ULAR BLACK AS")
     else :
-        menu = MenuGame.PyMenu(RED, lebar_layar/2, 45, "PERMAINAN BERAKHIR")
+        menu = menugamesken.PyMenu(RED, lebar_layar/2, 45, "PERMAINAN BERAKHIR")
   
   # create the buttons
-    TombolNewGame = TombolMenu.PyButton(lebar_layar/2, 130, "New Game")
-    TombolQuit = TombolMenu.PyButton(tinggi_layar/2, 220, "Quit")
+    TombolNewGame = tombolmenusken.PyButton(lebar_layar/2, 130, "New Game")
+    TombolQuit = tombolmenusken.PyButton(tinggi_layar/2, 220, "Quit")
 
     menu.tambahkanTombol(TombolNewGame, mainin)
     menu.tambahkanTombol(TombolQuit, mainin)
 
   # draw the menu
     menu.tampilan(window)
-    
+
 
 if __name__ == '__main__':
     Menu(cek)

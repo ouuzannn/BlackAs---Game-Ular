@@ -1,13 +1,13 @@
 # pymenu.py
 
-import pygame, TombolMenu, sys
+import pygame, tombolmenusken, sys
 from pygame.locals import *
 from konstanta import *
 
 class PyMenu(object):
   def __init__(self, menuwarna, x=0, y=0, judul="", font="Krungthep"):
     # menu judul, Tombol and perintah
-    self.namaTombol = TombolMenu.PyButton(x, y, judul, font)
+    self.namaTombol = tombolmenusken.PyButton(x, y, judul, font)
     self.Tombol = []
     self.perintah = []
 
