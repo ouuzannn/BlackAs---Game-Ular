@@ -3,7 +3,6 @@ import sys
 import random 
 import TombolMenu,MenuGame
 from konstanta import *
-import time
 
 
 class Ular():
